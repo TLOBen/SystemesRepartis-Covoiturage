@@ -1,0 +1,12 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block subject %}
+    {{ "Création de compte covoiturage" }}
+{% endblock %}
+
+{% block body_text %}{% endblock %}
+
+{% block body_html %}
+    <p>Un compte a été créé au nom de <strong>{{ user.username }}</strong></p>
+    <p>Lien d'activation <a href="{{ confirmationUrl }}">{{ confirmationUrl }}</a></p>
+{% endblock %}

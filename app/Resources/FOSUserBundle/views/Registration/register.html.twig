@@ -21,7 +21,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <strong>Register</strong>
+                        <strong>Création de compte</strong>
                     </div>
                     
                     <div class="panel-body">
@@ -39,7 +39,7 @@
                             <div class="form-group">
                                 {{ form_row(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
                             </div>
-                            <button class="btn btn-lg btn-primary" type="submit">Register</button>
+                            <button class="btn btn-primary" type="submit">Créer un compte</button>
                         {{ form_end(form) }}
                     </div>
                 </div>
@@ -47,14 +47,3 @@
         </div>
     </div>
 {% endblock %}
-
-{#
-{% block body %}
-    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-        {{ form_widget(form) }}
-        <div>
-            <input type="submit" value="{{ 'registration.submit'|trans }}" />
-        </div>
-    {{ form_end(form) }}
-{% endblock %}
-#}

@@ -21,10 +21,6 @@ class TravelService {
                                  ->getRepository('AppBundle:Trajet')
                                  ->createQueryBuilder('t');
         
-        dump($villeArrivee);
-        dump($villeDepart);
-        dump($dateDepart);
-        
         if (!empty($villeDepart)) {
             $queryBuilder = $queryBuilder
                     ->andWhere('t.villeDepart LIKE :villeDepart')
@@ -44,7 +40,7 @@ class TravelService {
                 $infos['villeDepart'] = $trajet->getVilleDepart();
                 $infos['villeArrivee'] = $trajet->getVilleArrivee();
                 $infos['prix'] = $trajet->getPrix();
-                $infos['heureDepart'] = $trajet->getVilleDepart();
+                $infos['dateDepart'] = $trajet->getVilleDepart();
                 
                 $trajetsInfo[] = $infos;
             }

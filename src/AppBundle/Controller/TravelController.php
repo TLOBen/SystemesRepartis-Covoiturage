@@ -31,18 +31,19 @@ class TravelController extends Controller
      */
     public function newAction(Request $request)
     {
-        return $this->render('travels/new.html.twig');
-    }
-    
-    /**
-     * @Route("/edit/{id]", name="travel_edit", requirements={"id": "\d+"})
-     */
-    public function editAction($id, Request $request)
-    {
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Trajet');
-        $trajet = $repository->find($id);
+        if($request->getMethod() === 'POST') {
+            $trajet = new Trajet();
+
+            $trajet->setUser($this->get('security.token_storage')->getToken()->getUser());
+            $trajet->setVilleDepart($request->get('villeDepart'));
+            $trajet->setVilleArrivee($request->get('villeArrivee'));
+            $trajet->setPrix($request->get('prix'));
+            $trajet->setDateDepart($request->get('dateDepart'));
+            
+            $this->getDoctrine()->getManager()->persist($trajet)->flush();
+        }
         
-        return $this->render('travels/edit.html.twig');
+        return $this->render('travels/new.html.twig');
     }
     
     /**

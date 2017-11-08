@@ -43,34 +43,14 @@ class Trajet
     private $prix;
     
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $tousLesJours;
-    
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $toutesLesSemaines;
-    
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $tousLesMois;
-    
+    private $dateDepart;
+
     /**
      * @ORM\OneToMany(targetEntity="Reservation", mappedBy="trajet")
      */
     private $reservations;
-    
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $heureDepart;
-    
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $dateDepart;
     
     public function getId()
     {
@@ -132,46 +112,8 @@ class Trajet
         $this->prix = $prix;
     }
     
-    public function getTousLesJours()
-    {
-        return $this->tousLesJours;
-    }
-
-    public function setTousLesJours($tousLesJours)
-    {
-        $this->tousLesJours = $tousLesJours;
-    }
-    
-    public function getToutesLesSemaines()
-    {
-        return $this->toutesLesSemaines;
-    }
-
-    public function setToutesLesSemaines($toutesLesSemaines)
-    {
-        $this->toutesLesSemaines = $toutesLesSemaines;
-    }
-    public function getTousLesMois()
-    {
-        return $this->tousLesMois;
-    }
-
-    public function setTousLesMois($tousLesMois)
-    {
-        $this->tousLesMois = $tousLesMois;
-    }
-    
     public function getReservations() {
         return $this->reservations;
-    }
-    
-    public function getHeureDepart() {
-        return $this->heureDepart;
-    }
-    
-    public function setHeureDepart($heureDepart)
-    {
-        $this->heureDepart = $heureDepart;
     }
     
     public function getDateDepart() {

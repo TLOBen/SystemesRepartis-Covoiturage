@@ -18,6 +18,7 @@
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="AppBundle">AppBundle\AppBundle</parameter>
       <parameter key="FOSUserBundle">FOS\UserBundle\FOSUserBundle</parameter>
+      <parameter key="JMSTranslationBundle">JMS\TranslationBundle\JMSTranslationBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -69,6 +70,11 @@
         <parameter key="parent">null</parameter>
         <parameter key="path">C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle</parameter>
         <parameter key="namespace">FOS\UserBundle</parameter>
+      </parameter>
+      <parameter key="JMSTranslationBundle" type="collection">
+        <parameter key="parent">null</parameter>
+        <parameter key="path">C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\jms\translation-bundle\JMS\TranslationBundle</parameter>
+        <parameter key="namespace">JMS\TranslationBundle</parameter>
       </parameter>
       <parameter key="DebugBundle" type="collection">
         <parameter key="parent">null</parameter>
@@ -133,6 +139,7 @@
     <parameter key="validator.mapping.cache.prefix"></parameter>
     <parameter key="validator.mapping.cache.file">C:\wamp64\www\SystemesRepartis-Covoiturage\var\cache\dev/validation.php</parameter>
     <parameter key="validator.translation_domain">validators</parameter>
+    <parameter key="translator.logging">true</parameter>
     <parameter key="profiler_listener.only_exceptions">false</parameter>
     <parameter key="profiler_listener.only_master_requests">false</parameter>
     <parameter key="profiler.storage.dsn">file:C:\wamp64\www\SystemesRepartis-Covoiturage\var\cache\dev/profiler</parameter>
@@ -381,6 +388,31 @@
       <parameter>ResetPassword</parameter>
       <parameter>Default</parameter>
     </parameter>
+    <parameter key="jms_translation.extractor_manager.class">JMS\TranslationBundle\Translation\ExtractorManager</parameter>
+    <parameter key="jms_translation.extractor.file_extractor.class">JMS\TranslationBundle\Translation\Extractor\FileExtractor</parameter>
+    <parameter key="jms_translation.extractor.file.default_php_extractor">JMS\TranslationBundle\Translation\Extractor\File\DefaultPhpFileExtractor</parameter>
+    <parameter key="jms_translation.extractor.file.translation_container_extractor">JMS\TranslationBundle\Translation\Extractor\File\TranslationContainerExtractor</parameter>
+    <parameter key="jms_translation.extractor.file.form_extractor.class">JMS\TranslationBundle\Translation\Extractor\File\FormExtractor</parameter>
+    <parameter key="jms_translation.extractor.file.validation_extractor.class">JMS\TranslationBundle\Translation\Extractor\File\ValidationExtractor</parameter>
+    <parameter key="jms_translation.extractor.file.authentication_message_extractor.class">JMS\TranslationBundle\Translation\Extractor\File\AuthenticationMessagesExtractor</parameter>
+    <parameter key="jms_translation.loader.symfony.xliff_loader.class">JMS\TranslationBundle\Translation\Loader\Symfony\XliffLoader</parameter>
+    <parameter key="jms_translation.loader.xliff_loader.class">JMS\TranslationBundle\Translation\Loader\XliffLoader</parameter>
+    <parameter key="jms_translation.loader.symfony_adapter.class">JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter</parameter>
+    <parameter key="jms_translation.loader_manager.class">JMS\TranslationBundle\Translation\LoaderManager</parameter>
+    <parameter key="jms_translation.dumper.php_dumper.class">JMS\TranslationBundle\Translation\Dumper\PhpDumper</parameter>
+    <parameter key="jms_translation.dumper.xliff_dumper.class">JMS\TranslationBundle\Translation\Dumper\XliffDumper</parameter>
+    <parameter key="jms_translation.dumper.yaml_dumper.class">JMS\TranslationBundle\Translation\Dumper\YamlDumper</parameter>
+    <parameter key="jms_translation.dumper.symfony_adapter.class">JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter</parameter>
+    <parameter key="jms_translation.file_writer.class">JMS\TranslationBundle\Translation\FileWriter</parameter>
+    <parameter key="jms_translation.updater.class">JMS\TranslationBundle\Translation\Updater</parameter>
+    <parameter key="jms_translation.config_factory.class">JMS\TranslationBundle\Translation\ConfigFactory</parameter>
+    <parameter key="jms_translation.file_source_factory.class">JMS\TranslationBundle\Translation\FileSourceFactory</parameter>
+    <parameter key="jms_translation.extractor.file.twig_extractor">JMS\TranslationBundle\Translation\Extractor\File\Twig2FileExtractor</parameter>
+    <parameter key="jms_translation.twig_extension.class">JMS\TranslationBundle\Twig2\TranslationExtension</parameter>
+    <parameter key="jms_translation.source_language">en</parameter>
+    <parameter key="jms_translation.locales" type="collection"/>
+    <parameter key="jms_translation.dumper.add_date">true</parameter>
+    <parameter key="jms_translation.dumper.add_references">true</parameter>
     <parameter key="web_profiler.debug_toolbar.position">bottom</parameter>
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
@@ -424,6 +456,10 @@
       <parameter key="data_collector.cache" type="collection">
         <parameter>cache</parameter>
         <parameter>@WebProfiler/Collector/cache.html.twig</parameter>
+      </parameter>
+      <parameter key="data_collector.translation" type="collection">
+        <parameter>translation</parameter>
+        <parameter>@WebProfiler/Collector/translation.html.twig</parameter>
       </parameter>
       <parameter key="data_collector.security" type="collection">
         <parameter>security</parameter>
@@ -492,8 +528,11 @@
     <service id="AppBundle\Controller\FirstConnexionController" class="AppBundle\Controller\FirstConnexionController" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
-    <service id="AppBundle\Form\UserType" class="AppBundle\Form\UserType" public="false" autowire="true" autoconfigure="true">
-      <tag name="form.type"/>
+    <service id="AppBundle\Controller\SearchController" class="AppBundle\Controller\SearchController" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
+    </service>
+    <service id="AppBundle\Service\TravelService" class="AppBundle\Service\TravelService" public="false" autowire="true" autoconfigure="true">
+      <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
@@ -511,7 +550,7 @@
     </service>
     <service id="argument_resolver.service" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-50"/>
-      <argument type="service" id="service_locator.1dbeeee00ffc02beb1162b764ef7caff"/>
+      <argument type="service" id="service_locator.b253bb6cef93262c133651d2a30f4571"/>
     </service>
     <service id="argument_resolver.default" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
       <tag name="controller.argument_value_resolver" priority="-100"/>
@@ -557,6 +596,7 @@
       <argument type="collection">
         <argument type="service" id="templating.cache_warmer.template_paths"/>
         <argument type="service" id="validator.mapping.cache_warmer"/>
+        <argument type="service" id="translation.warmer"/>
         <argument type="service" id="router.cache_warmer"/>
         <argument type="service" id="annotations.cache_warmer"/>
         <argument type="service" id="twig.cache_warmer"/>
@@ -679,7 +719,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>Nb9N-FrIGyuSVYIXX9cFAb</argument>
+      <argument>-Eoca1x205kvyJ185C6RF5</argument>
       <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -689,7 +729,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>Nb9N-FrIGyuSVYIXX9cFAb</argument>
+      <argument>-Eoca1x205kvyJ185C6RF5</argument>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
@@ -744,9 +784,6 @@
       <tag name="kernel.cache_clearer"/>
     </service>
     <service id="cache.global_clearer" class="Symfony\Component\HttpKernel\CacheClearer\Psr6CacheClearer"/>
-    <service id="translator" class="Symfony\Component\Translation\IdentityTranslator">
-      <argument type="service" id="translator.selector"/>
-    </service>
     <service id="translator.selector" class="Symfony\Component\Translation\MessageSelector" public="false"/>
     <service id="1_dbaf190777b7d7a5af87e4bd1765bf2e8367366b8f02e7b4dc5d107ba74f90c8" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
@@ -808,7 +845,7 @@
       <argument type="service" id="form.resolved_type_factory"/>
     </service>
     <service id="form.extension" class="Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension" public="false">
-      <argument type="service" id="service_locator.133e8104c311b0b1efd7c68ace796890"/>
+      <argument type="service" id="service_locator.61ce42ee314d3459d7339b36d3fecf2a"/>
       <argument type="collection">
         <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="iterator">
           <argument type="service" id="form.type_extension.form.http_foundation"/>
@@ -959,7 +996,7 @@
     </service>
     <service id="form.type_extension.upload.validator" class="Symfony\Component\Form\Extension\Validator\Type\UploadValidatorExtension" public="false">
       <tag name="form.type_extension" extended_type="Symfony\Component\Form\Extension\Core\Type\FormType" extended-type="Symfony\Component\Form\Extension\Core\Type\FormType"/>
-      <argument type="service" id="translator"/>
+      <argument type="service" id="translator.data_collector"/>
       <argument>validators</argument>
     </service>
     <service id="deprecated.form.registry" class="stdClass">
@@ -980,7 +1017,7 @@
       <argument type="service" id="security.csrf.token_manager"/>
       <argument>true</argument>
       <argument>_token</argument>
-      <argument type="service" id="translator"/>
+      <argument type="service" id="translator.data_collector"/>
       <argument>validators</argument>
       <argument type="service" id="form.server_params"/>
     </service>
@@ -1088,7 +1125,7 @@
         <argument type="service" id="validator.validator_factory"/>
       </call>
       <call method="setTranslator">
-        <argument type="service" id="translator"/>
+        <argument type="service" id="translator.data_collector"/>
       </call>
       <call method="setTranslationDomain">
         <argument>validators</argument>
@@ -1143,6 +1180,563 @@
       <argument type="service" id="uri_signer"/>
       <argument>/_fragment</argument>
     </service>
+    <service id="translator.default" class="Symfony\Bundle\FrameworkBundle\Translation\Translator">
+      <argument type="service" id="service_locator.20ccd3ddf0f78b2202986f924e362585"/>
+      <argument type="service" id="translator.selector"/>
+      <argument>fr</argument>
+      <argument type="collection">
+        <argument key="translation.loader.php" type="collection">
+          <argument>php</argument>
+        </argument>
+        <argument key="translation.loader.yml" type="collection">
+          <argument>yml</argument>
+        </argument>
+        <argument key="translation.loader.xliff" type="collection">
+          <argument>xlf</argument>
+          <argument>xliff</argument>
+        </argument>
+        <argument key="translation.loader.po" type="collection">
+          <argument>po</argument>
+        </argument>
+        <argument key="translation.loader.mo" type="collection">
+          <argument>mo</argument>
+        </argument>
+        <argument key="translation.loader.qt" type="collection">
+          <argument>ts</argument>
+        </argument>
+        <argument key="translation.loader.csv" type="collection">
+          <argument>csv</argument>
+        </argument>
+        <argument key="translation.loader.res" type="collection">
+          <argument>res</argument>
+        </argument>
+        <argument key="translation.loader.dat" type="collection">
+          <argument>dat</argument>
+        </argument>
+        <argument key="translation.loader.ini" type="collection">
+          <argument>ini</argument>
+        </argument>
+        <argument key="translation.loader.json" type="collection">
+          <argument>json</argument>
+        </argument>
+      </argument>
+      <argument type="collection">
+        <argument key="cache_dir">C:\wamp64\www\SystemesRepartis-Covoiturage\var\cache\dev/translations</argument>
+        <argument key="debug">true</argument>
+        <argument key="resource_files" type="collection">
+          <argument key="af" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.af.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.af.yml</argument>
+          </argument>
+          <argument key="ar" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.ar.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.ar.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.ar.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.ar.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.ar.yml</argument>
+          </argument>
+          <argument key="az" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.az.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.az.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.az.xlf</argument>
+          </argument>
+          <argument key="bg" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.bg.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.bg.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.bg.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.bg.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.bg.yml</argument>
+          </argument>
+          <argument key="ca" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.ca.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.ca.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.ca.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.ca.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.ca.yml</argument>
+          </argument>
+          <argument key="cs" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.cs.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.cs.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.cs.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.cs.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.cs.yml</argument>
+          </argument>
+          <argument key="cy" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.cy.xlf</argument>
+          </argument>
+          <argument key="da" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.da.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.da.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.da.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.da.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.da.yml</argument>
+          </argument>
+          <argument key="de" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.de.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.de.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.de.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.de.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.de.yml</argument>
+          </argument>
+          <argument key="el" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.el.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.el.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.el.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.el.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.el.yml</argument>
+          </argument>
+          <argument key="en" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.en.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.en.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.en.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.en.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.en.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\app/Resources/translations\FOSUserBundle.en.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\app/Resources/translations\messages.en.yml</argument>
+          </argument>
+          <argument key="es" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.es.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.es.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.es.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.es.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.es.yml</argument>
+          </argument>
+          <argument key="et" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.et.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.et.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.et.yml</argument>
+          </argument>
+          <argument key="eu" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.eu.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.eu.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.eu.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.eu.yml</argument>
+          </argument>
+          <argument key="fa" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.fa.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.fa.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.fa.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.fa.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.fa.yml</argument>
+          </argument>
+          <argument key="fi" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.fi.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.fi.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.fi.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.fi.yml</argument>
+          </argument>
+          <argument key="fr" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.fr.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.fr.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.fr.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.fr.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.fr.yml</argument>
+          </argument>
+          <argument key="gl" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.gl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.gl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.gl.xlf</argument>
+          </argument>
+          <argument key="he" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.he.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.he.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.he.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.he.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.he.yml</argument>
+          </argument>
+          <argument key="hr" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.hr.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.hr.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.hr.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.hr.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.hr.yml</argument>
+          </argument>
+          <argument key="hu" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.hu.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.hu.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.hu.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.hu.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.hu.yml</argument>
+          </argument>
+          <argument key="hy" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.hy.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.hy.xlf</argument>
+          </argument>
+          <argument key="id" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.id.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.id.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.id.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.id.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.id.yml</argument>
+          </argument>
+          <argument key="it" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.it.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.it.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.it.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.it.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.it.yml</argument>
+          </argument>
+          <argument key="ja" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.ja.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.ja.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.ja.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.ja.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.ja.yml</argument>
+          </argument>
+          <argument key="lb" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.lb.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.lb.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.lb.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.lb.yml</argument>
+          </argument>
+          <argument key="lt" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.lt.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.lt.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.lt.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.lt.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.lt.yml</argument>
+          </argument>
+          <argument key="lv" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.lv.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.lv.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.lv.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.lv.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.lv.yml</argument>
+          </argument>
+          <argument key="mn" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.mn.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.mn.xlf</argument>
+          </argument>
+          <argument key="nl" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.nl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.nl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.nl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.nl.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.nl.yml</argument>
+          </argument>
+          <argument key="nn" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.nn.xlf</argument>
+          </argument>
+          <argument key="no" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.no.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.no.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.no.xlf</argument>
+          </argument>
+          <argument key="pl" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.pl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.pl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.pl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.pl.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.pl.yml</argument>
+          </argument>
+          <argument key="pt" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.pt.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.pt.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.pt.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.pt.yml</argument>
+          </argument>
+          <argument key="pt_BR" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.pt_BR.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.pt_BR.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.pt_BR.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.pt_BR.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.pt_BR.yml</argument>
+          </argument>
+          <argument key="ro" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.ro.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.ro.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.ro.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.ro.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.ro.yml</argument>
+          </argument>
+          <argument key="ru" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.ru.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.ru.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.ru.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.ru.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.ru.yml</argument>
+          </argument>
+          <argument key="sk" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.sk.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.sk.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.sk.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.sk.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.sk.yml</argument>
+          </argument>
+          <argument key="sl" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.sl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.sl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.sl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.sl.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.sl.yml</argument>
+          </argument>
+          <argument key="sq" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.sq.xlf</argument>
+          </argument>
+          <argument key="sr_Cyrl" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.sr_Cyrl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.sr_Cyrl.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.sr_Cyrl.xlf</argument>
+          </argument>
+          <argument key="sr_Latn" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.sr_Latn.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.sr_Latn.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.sr_Latn.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.sr_Latn.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.sr_Latn.yml</argument>
+          </argument>
+          <argument key="sv" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.sv.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.sv.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.sv.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.sv.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.sv.yml</argument>
+          </argument>
+          <argument key="th" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.th.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.th.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.th.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.th.yml</argument>
+          </argument>
+          <argument key="tr" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.tr.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.tr.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.tr.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.tr.yml</argument>
+          </argument>
+          <argument key="uk" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.uk.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.uk.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.uk.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.uk.yml</argument>
+          </argument>
+          <argument key="vi" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.vi.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.vi.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.vi.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.vi.yml</argument>
+          </argument>
+          <argument key="zh_CN" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.zh_CN.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Form/Resources/translations\validators.zh_CN.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.zh_CN.xlf</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.zh_CN.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.zh_CN.yml</argument>
+          </argument>
+          <argument key="zh_TW" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Validator/Resources/translations\validators.zh_TW.xlf</argument>
+          </argument>
+          <argument key="pt_PT" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.pt_PT.xlf</argument>
+          </argument>
+          <argument key="ua" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Component\Security\Core/Resources/translations\security.ua.xlf</argument>
+          </argument>
+          <argument key="eo" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.eo.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.eo.yml</argument>
+          </argument>
+          <argument key="ky" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.ky.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.ky.yml</argument>
+          </argument>
+          <argument key="nb" type="collection">
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\FOSUserBundle.nb.yml</argument>
+            <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/translations\validators.nb.yml</argument>
+          </argument>
+        </argument>
+      </argument>
+      <call method="setConfigCacheFactory">
+        <argument type="service" id="config_cache_factory"/>
+      </call>
+      <call method="setFallbackLocales">
+        <argument type="collection">
+          <argument>en</argument>
+        </argument>
+      </call>
+    </service>
+    <service id="translator.logging" class="Symfony\Component\Translation\LoggingTranslator" public="false">
+      <tag name="monolog.logger" channel="translation"/>
+      <argument type="service" id="translator.default"/>
+      <argument type="service" id="monolog.logger.translation"/>
+    </service>
+    <service id="translation.loader.php" class="Symfony\Component\Translation\Loader\PhpFileLoader">
+      <tag name="translation.loader" alias="php"/>
+    </service>
+    <service id="translation.loader.yml" class="Symfony\Component\Translation\Loader\YamlFileLoader">
+      <tag name="translation.loader" alias="yml"/>
+    </service>
+    <service id="translation.loader.xliff" class="JMS\TranslationBundle\Translation\Loader\Symfony\XliffLoader">
+      <tag name="translation.loader" alias="xlf" legacy_alias="xliff" legacy-alias="xliff"/>
+    </service>
+    <service id="translation.loader.po" class="Symfony\Component\Translation\Loader\PoFileLoader">
+      <tag name="translation.loader" alias="po"/>
+    </service>
+    <service id="translation.loader.mo" class="Symfony\Component\Translation\Loader\MoFileLoader">
+      <tag name="translation.loader" alias="mo"/>
+    </service>
+    <service id="translation.loader.qt" class="Symfony\Component\Translation\Loader\QtFileLoader">
+      <tag name="translation.loader" alias="ts"/>
+    </service>
+    <service id="translation.loader.csv" class="Symfony\Component\Translation\Loader\CsvFileLoader">
+      <tag name="translation.loader" alias="csv"/>
+    </service>
+    <service id="translation.loader.res" class="Symfony\Component\Translation\Loader\IcuResFileLoader">
+      <tag name="translation.loader" alias="res"/>
+    </service>
+    <service id="translation.loader.dat" class="Symfony\Component\Translation\Loader\IcuDatFileLoader">
+      <tag name="translation.loader" alias="dat"/>
+    </service>
+    <service id="translation.loader.ini" class="Symfony\Component\Translation\Loader\IniFileLoader">
+      <tag name="translation.loader" alias="ini"/>
+    </service>
+    <service id="translation.loader.json" class="Symfony\Component\Translation\Loader\JsonFileLoader">
+      <tag name="translation.loader" alias="json"/>
+    </service>
+    <service id="translation.dumper.php" class="Symfony\Component\Translation\Dumper\PhpFileDumper">
+      <tag name="translation.dumper" alias="php"/>
+    </service>
+    <service id="translation.dumper.xliff" class="Symfony\Component\Translation\Dumper\XliffFileDumper">
+      <tag name="translation.dumper" alias="xlf"/>
+    </service>
+    <service id="translation.dumper.po" class="Symfony\Component\Translation\Dumper\PoFileDumper">
+      <tag name="translation.dumper" alias="po"/>
+    </service>
+    <service id="translation.dumper.mo" class="Symfony\Component\Translation\Dumper\MoFileDumper">
+      <tag name="translation.dumper" alias="mo"/>
+    </service>
+    <service id="translation.dumper.yml" class="Symfony\Component\Translation\Dumper\YamlFileDumper">
+      <tag name="translation.dumper" alias="yml"/>
+    </service>
+    <service id="translation.dumper.qt" class="Symfony\Component\Translation\Dumper\QtFileDumper">
+      <tag name="translation.dumper" alias="ts"/>
+    </service>
+    <service id="translation.dumper.csv" class="Symfony\Component\Translation\Dumper\CsvFileDumper">
+      <tag name="translation.dumper" alias="csv"/>
+    </service>
+    <service id="translation.dumper.ini" class="Symfony\Component\Translation\Dumper\IniFileDumper">
+      <tag name="translation.dumper" alias="ini"/>
+    </service>
+    <service id="translation.dumper.json" class="Symfony\Component\Translation\Dumper\JsonFileDumper">
+      <tag name="translation.dumper" alias="json"/>
+    </service>
+    <service id="translation.dumper.res" class="Symfony\Component\Translation\Dumper\IcuResFileDumper">
+      <tag name="translation.dumper" alias="res"/>
+    </service>
+    <service id="translation.extractor.php" class="Symfony\Bundle\FrameworkBundle\Translation\PhpExtractor">
+      <tag name="translation.extractor" alias="php"/>
+    </service>
+    <service id="translation.loader" class="Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader">
+      <call method="addLoader">
+        <argument>php</argument>
+        <argument type="service" id="translation.loader.php"/>
+      </call>
+      <call method="addLoader">
+        <argument>yml</argument>
+        <argument type="service" id="translation.loader.yml"/>
+      </call>
+      <call method="addLoader">
+        <argument>xlf</argument>
+        <argument type="service" id="translation.loader.xliff"/>
+      </call>
+      <call method="addLoader">
+        <argument>xliff</argument>
+        <argument type="service" id="translation.loader.xliff"/>
+      </call>
+      <call method="addLoader">
+        <argument>po</argument>
+        <argument type="service" id="translation.loader.po"/>
+      </call>
+      <call method="addLoader">
+        <argument>mo</argument>
+        <argument type="service" id="translation.loader.mo"/>
+      </call>
+      <call method="addLoader">
+        <argument>ts</argument>
+        <argument type="service" id="translation.loader.qt"/>
+      </call>
+      <call method="addLoader">
+        <argument>csv</argument>
+        <argument type="service" id="translation.loader.csv"/>
+      </call>
+      <call method="addLoader">
+        <argument>res</argument>
+        <argument type="service" id="translation.loader.res"/>
+      </call>
+      <call method="addLoader">
+        <argument>dat</argument>
+        <argument type="service" id="translation.loader.dat"/>
+      </call>
+      <call method="addLoader">
+        <argument>ini</argument>
+        <argument type="service" id="translation.loader.ini"/>
+      </call>
+      <call method="addLoader">
+        <argument>json</argument>
+        <argument type="service" id="translation.loader.json"/>
+      </call>
+    </service>
+    <service id="translation.extractor" class="Symfony\Component\Translation\Extractor\ChainExtractor">
+      <call method="addExtractor">
+        <argument>php</argument>
+        <argument type="service" id="translation.extractor.php"/>
+      </call>
+      <call method="addExtractor">
+        <argument>twig</argument>
+        <argument type="service" id="twig.translation.extractor"/>
+      </call>
+    </service>
+    <service id="translation.writer" class="Symfony\Component\Translation\Writer\TranslationWriter">
+      <call method="addDumper">
+        <argument>php</argument>
+        <argument type="service" id="translation.dumper.php"/>
+      </call>
+      <call method="addDumper">
+        <argument>xlf</argument>
+        <argument type="service" id="translation.dumper.xliff"/>
+      </call>
+      <call method="addDumper">
+        <argument>po</argument>
+        <argument type="service" id="translation.dumper.po"/>
+      </call>
+      <call method="addDumper">
+        <argument>mo</argument>
+        <argument type="service" id="translation.dumper.mo"/>
+      </call>
+      <call method="addDumper">
+        <argument>yml</argument>
+        <argument type="service" id="translation.dumper.yml"/>
+      </call>
+      <call method="addDumper">
+        <argument>ts</argument>
+        <argument type="service" id="translation.dumper.qt"/>
+      </call>
+      <call method="addDumper">
+        <argument>csv</argument>
+        <argument type="service" id="translation.dumper.csv"/>
+      </call>
+      <call method="addDumper">
+        <argument>ini</argument>
+        <argument type="service" id="translation.dumper.ini"/>
+      </call>
+      <call method="addDumper">
+        <argument>json</argument>
+        <argument type="service" id="translation.dumper.json"/>
+      </call>
+      <call method="addDumper">
+        <argument>res</argument>
+        <argument type="service" id="translation.dumper.res"/>
+      </call>
+    </service>
+    <service id="translation.warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\TranslationsCacheWarmer" public="false">
+      <tag name="kernel.cache_warmer"/>
+      <argument type="service" id="translator.default"/>
+    </service>
+    <service id="translator_listener" class="Symfony\Component\HttpKernel\EventListener\TranslatorListener">
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id="translator.data_collector"/>
+      <argument type="service" id="request_stack"/>
+    </service>
     <service id="profiler" class="Symfony\Component\HttpKernel\Profiler\Profiler">
       <tag name="monolog.logger" channel="profiler"/>
       <argument type="service" id="profiler.storage"/>
@@ -1176,6 +1770,9 @@
       </call>
       <call method="add">
         <argument type="service" id="data_collector.cache"/>
+      </call>
+      <call method="add">
+        <argument type="service" id="data_collector.translation"/>
       </call>
       <call method="add">
         <argument type="service" id="data_collector.security"/>
@@ -1277,6 +1874,13 @@
     <service id="data_collector.form" class="Symfony\Component\Form\Extension\DataCollector\FormDataCollector">
       <tag name="data_collector" template="@WebProfiler/Collector/form.html.twig" id="form" priority="310"/>
       <argument type="service" id="data_collector.form.extractor"/>
+    </service>
+    <service id="translator.data_collector" class="Symfony\Component\Translation\DataCollectorTranslator" public="false">
+      <argument type="service" id="translator.logging"/>
+    </service>
+    <service id="data_collector.translation" class="Symfony\Component\Translation\DataCollector\TranslationDataCollector">
+      <tag name="data_collector" template="@WebProfiler/Collector/translation.html.twig" id="translation" priority="275"/>
+      <argument type="service" id="translator.data_collector"/>
     </service>
     <service id="c66c8daa4fa4dead6a562ed2c4bdb322" class="Symfony\Component\Cache\Adapter\AbstractAdapter" public="false">
       <argument>redis://localhost</argument>
@@ -1410,6 +2014,22 @@
         <argument>48</argument>
       </call>
       <call method="addListener">
+        <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument type="service" id="translator_listener"/>
+          <argument>onKernelRequest</argument>
+        </argument>
+        <argument>10</argument>
+      </call>
+      <call method="addListener">
+        <argument>kernel.finish_request</argument>
+        <argument type="collection">
+          <argument type="service" id="translator_listener"/>
+          <argument>onKernelFinishRequest</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
         <argument>kernel.response</argument>
         <argument type="collection">
           <argument type="service" id="profiler_listener"/>
@@ -1451,14 +2071,6 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
-        <argument type="collection">
-          <argument type="service" id="debug.debug_handlers_listener"/>
-          <argument>configure</argument>
-        </argument>
-        <argument>2048</argument>
-      </call>
-      <call method="addListener">
-        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -2077,7 +2689,7 @@
       <call method="add">
         <argument type="service" id="security.request_matcher.41091f70e80f3936f117ff4e6751842a93fdf2b8491e2b284ce03ec84464d46405047129"/>
         <argument type="collection">
-          <argument>ROLE_USER</argument>
+          <argument>IS_AUTHENTICATED_ANONYMOUSLY</argument>
         </argument>
         <argument>null</argument>
       </call>
@@ -2504,12 +3116,12 @@
     </service>
     <service id="security.authentication.listener.anonymous.main" class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
       <argument type="service" id="security.token_storage"/>
-      <argument>59f927b51f4dd4.92716948</argument>
+      <argument>5a0268220f6257.33230693</argument>
       <argument type="service" id="monolog.logger.security" on-invalid="null"/>
       <argument type="service" id="security.authentication.manager"/>
     </service>
     <service id="security.authentication.provider.anonymous.main" class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-      <argument>59f927b51f4dd4.92716948</argument>
+      <argument>5a0268220f6257.33230693</argument>
     </service>
     <service id="security.exception_listener.main" class="Symfony\Component\Security\Http\Firewall\ExceptionListener" public="false">
       <argument type="service" id="security.token_storage"/>
@@ -2633,6 +3245,9 @@
         <argument type="service" id="doctrine.twig.doctrine_extension"/>
       </call>
       <call method="addExtension">
+        <argument type="service" id="jms_translation.twig_extension"/>
+      </call>
+      <call method="addExtension">
         <argument type="service" id="twig.extension.dump"/>
       </call>
       <call method="addExtension">
@@ -2711,6 +3326,10 @@
         <argument>FOSUser</argument>
       </call>
       <call method="addPath">
+        <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\jms\translation-bundle\JMS\TranslationBundle/Resources/views</argument>
+        <argument>JMSTranslation</argument>
+      </call>
+      <call method="addPath">
         <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Bundle\DebugBundle/Resources/views</argument>
         <argument>Debug</argument>
       </call>
@@ -2738,7 +3357,7 @@
     </service>
     <service id="twig.extension.trans" class="Symfony\Bridge\Twig\Extension\TranslationExtension" public="false">
       <tag name="twig.extension"/>
-      <argument type="service" id="translator"/>
+      <argument type="service" id="translator.data_collector"/>
     </service>
     <service id="twig.extension.assets" class="Symfony\Bridge\Twig\Extension\AssetExtension" public="false">
       <tag name="twig.extension"/>
@@ -2859,6 +3478,10 @@
       <call method="addPath">
         <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\friendsofsymfony\user-bundle/Resources/views</argument>
         <argument>FOSUser</argument>
+      </call>
+      <call method="addPath">
+        <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\jms\translation-bundle\JMS\TranslationBundle/Resources/views</argument>
+        <argument>JMSTranslation</argument>
       </call>
       <call method="addPath">
         <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\vendor\symfony\symfony\src\Symfony\Bundle\DebugBundle/Resources/views</argument>
@@ -3527,7 +4150,7 @@
     <service id="fos_user.listener.flash" class="FOS\UserBundle\EventListener\FlashListener">
       <tag name="kernel.event_subscriber"/>
       <argument type="service" id="session"/>
-      <argument type="service" id="translator"/>
+      <argument type="service" id="translator.data_collector"/>
     </service>
     <service id="fos_user.username_form_type" class="FOS\UserBundle\Form\Type\UsernameFormType">
       <tag name="form.type" alias="fos_user_username"/>
@@ -3599,6 +4222,145 @@
       <tag name="kernel.event_subscriber"/>
       <argument type="service" id="router.default"/>
       <argument>86400</argument>
+    </service>
+    <service id="jms_translation.updater" class="JMS\TranslationBundle\Translation\Updater">
+      <argument type="service" id="jms_translation.loader_manager"/>
+      <argument type="service" id="jms_translation.extractor_manager"/>
+      <argument type="service" id="monolog.logger"/>
+      <argument type="service" id="jms_translation.file_writer"/>
+    </service>
+    <service id="jms_translation.config_factory" class="JMS\TranslationBundle\Translation\ConfigFactory">
+      <argument type="collection"/>
+    </service>
+    <service id="jms_translation.file_source_factory" class="JMS\TranslationBundle\Translation\FileSourceFactory">
+      <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\app</argument>
+    </service>
+    <service id="jms_translation.file_writer" class="JMS\TranslationBundle\Translation\FileWriter" public="false">
+      <argument type="collection">
+        <argument key="php" type="service" id="jms_translation.dumper.php_dumper"/>
+        <argument key="xlf" type="service" id="jms_translation.dumper.xlf_dumper"/>
+        <argument key="po" type="service" id="jms_translation.dumper.wrapped_symfony_dumper.2"/>
+        <argument key="mo" type="service" id="jms_translation.dumper.wrapped_symfony_dumper.3"/>
+        <argument key="yml" type="service" id="jms_translation.dumper.yaml_dumper"/>
+        <argument key="ts" type="service" id="jms_translation.dumper.wrapped_symfony_dumper.5"/>
+        <argument key="csv" type="service" id="jms_translation.dumper.wrapped_symfony_dumper.6"/>
+        <argument key="ini" type="service" id="jms_translation.dumper.wrapped_symfony_dumper.7"/>
+        <argument key="json" type="service" id="jms_translation.dumper.wrapped_symfony_dumper.8"/>
+        <argument key="res" type="service" id="jms_translation.dumper.wrapped_symfony_dumper.9"/>
+        <argument key="xliff" type="service" id="jms_translation.dumper.xliff_dumper"/>
+      </argument>
+    </service>
+    <service id="jms_translation.loader.symfony_adapter" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false" abstract="true"/>
+    <service id="jms_translation.loader_manager" class="JMS\TranslationBundle\Translation\LoaderManager">
+      <argument type="collection">
+        <argument key="php" type="service" id="jms_translation.loader.wrapped_symfony_loader.0"/>
+        <argument key="yml" type="service" id="jms_translation.loader.wrapped_symfony_loader.1"/>
+        <argument key="xlf" type="service" id="jms_translation.loader.wrapped_symfony_loader.2"/>
+        <argument key="po" type="service" id="jms_translation.loader.wrapped_symfony_loader.3"/>
+        <argument key="mo" type="service" id="jms_translation.loader.wrapped_symfony_loader.4"/>
+        <argument key="ts" type="service" id="jms_translation.loader.wrapped_symfony_loader.5"/>
+        <argument key="csv" type="service" id="jms_translation.loader.wrapped_symfony_loader.6"/>
+        <argument key="res" type="service" id="jms_translation.loader.wrapped_symfony_loader.7"/>
+        <argument key="dat" type="service" id="jms_translation.loader.wrapped_symfony_loader.8"/>
+        <argument key="ini" type="service" id="jms_translation.loader.wrapped_symfony_loader.9"/>
+        <argument key="json" type="service" id="jms_translation.loader.wrapped_symfony_loader.10"/>
+        <argument key="xliff" type="service" id="jms_translation.loader.xliff_loader"/>
+      </argument>
+    </service>
+    <service id="jms_translation.loader.xliff_loader" class="JMS\TranslationBundle\Translation\Loader\XliffLoader" public="false">
+      <tag name="jms_translation.loader" format="xliff"/>
+    </service>
+    <service id="jms_translation.dumper.php_dumper" class="JMS\TranslationBundle\Translation\Dumper\PhpDumper" public="false">
+      <tag name="jms_translation.dumper" format="php"/>
+    </service>
+    <service id="jms_translation.dumper.xliff_dumper" class="JMS\TranslationBundle\Translation\Dumper\XliffDumper" public="false">
+      <tag name="jms_translation.dumper" format="xliff"/>
+      <call method="setSourceLanguage">
+        <argument>en</argument>
+      </call>
+      <call method="setAddDate">
+        <argument>true</argument>
+      </call>
+      <call method="setAddReference">
+        <argument>true</argument>
+      </call>
+    </service>
+    <service id="jms_translation.dumper.xlf_dumper" class="JMS\TranslationBundle\Translation\Dumper\XliffDumper" public="false">
+      <tag name="jms_translation.dumper" format="xlf"/>
+      <call method="setSourceLanguage">
+        <argument>en</argument>
+      </call>
+      <call method="setAddDate">
+        <argument>true</argument>
+      </call>
+      <call method="setAddReference">
+        <argument>true</argument>
+      </call>
+    </service>
+    <service id="jms_translation.dumper.yaml_dumper" class="JMS\TranslationBundle\Translation\Dumper\YamlDumper" public="false">
+      <tag name="jms_translation.dumper" format="yml"/>
+    </service>
+    <service id="jms_translation.dumper.symfony_adapter" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false" abstract="true"/>
+    <service id="jms_translation.extractor_manager" class="JMS\TranslationBundle\Translation\ExtractorManager" public="false">
+      <argument type="service" id="jms_translation.extractor.file_extractor"/>
+      <argument type="service" id="monolog.logger"/>
+      <argument type="collection"/>
+    </service>
+    <service id="jms_translation.extractor.file_extractor" class="JMS\TranslationBundle\Translation\Extractor\FileExtractor" public="false">
+      <argument type="service" id="twig"/>
+      <argument type="service" id="monolog.logger"/>
+      <argument type="collection">
+        <argument type="service" id="jms_translation.extractor.file.default_php_extractor"/>
+        <argument type="service" id="jms_translation.extractor.file.form_extractor"/>
+        <argument type="service" id="jms_translation.extractor.file.translation_container_extractor"/>
+        <argument type="service" id="jms_translation.extractor.file.twig_extractor"/>
+        <argument type="service" id="jms_translation.extractor.file.validation_extractor"/>
+        <argument type="service" id="jms_translation.extractor.file.authentication_message_extractor"/>
+      </argument>
+    </service>
+    <service id="jms_translation.extractor.file.default_php_extractor" class="JMS\TranslationBundle\Translation\Extractor\File\DefaultPhpFileExtractor" public="false">
+      <tag name="jms_translation.file_visitor"/>
+      <argument type="service" id="jms_translation.doc_parser"/>
+      <argument type="service" id="jms_translation.file_source_factory"/>
+    </service>
+    <service id="jms_translation.extractor.file.form_extractor" class="JMS\TranslationBundle\Translation\Extractor\File\FormExtractor" public="false">
+      <tag name="jms_translation.file_visitor"/>
+      <argument type="service" id="jms_translation.doc_parser"/>
+      <argument type="service" id="jms_translation.file_source_factory"/>
+    </service>
+    <service id="jms_translation.extractor.file.translation_container_extractor" class="JMS\TranslationBundle\Translation\Extractor\File\TranslationContainerExtractor" public="false">
+      <tag name="jms_translation.file_visitor"/>
+    </service>
+    <service id="jms_translation.extractor.file.twig_extractor" class="JMS\TranslationBundle\Translation\Extractor\File\Twig2FileExtractor" public="false">
+      <tag name="jms_translation.file_visitor"/>
+      <argument type="service" id="twig"/>
+      <argument type="service" id="jms_translation.file_source_factory"/>
+    </service>
+    <service id="jms_translation.extractor.file.validation_extractor" class="JMS\TranslationBundle\Translation\Extractor\File\ValidationExtractor" public="false">
+      <tag name="jms_translation.file_visitor"/>
+      <argument type="service" id="validator"/>
+    </service>
+    <service id="jms_translation.extractor.file.authentication_message_extractor" class="JMS\TranslationBundle\Translation\Extractor\File\AuthenticationMessagesExtractor" public="false">
+      <tag name="jms_translation.file_visitor"/>
+      <argument type="service" id="jms_translation.doc_parser"/>
+      <argument type="service" id="jms_translation.file_source_factory"/>
+    </service>
+    <service id="jms_translation.doc_parser" class="Doctrine\Common\Annotations\DocParser" public="false">
+      <call method="setImports">
+        <argument type="collection">
+          <argument key="desc">JMS\TranslationBundle\Annotation\Desc</argument>
+          <argument key="meaning">JMS\TranslationBundle\Annotation\Meaning</argument>
+          <argument key="ignore">JMS\TranslationBundle\Annotation\Ignore</argument>
+        </argument>
+      </call>
+      <call method="setIgnoreNotImportedAnnotations">
+        <argument>true</argument>
+      </call>
+    </service>
+    <service id="jms_translation.twig_extension" class="JMS\TranslationBundle\Twig2\TranslationExtension">
+      <tag name="twig.extension"/>
+      <argument type="service" id="translator.data_collector"/>
+      <argument>true</argument>
     </service>
     <service id="twig.extension.dump" class="Symfony\Bridge\Twig\Extension\DumpExtension" public="false">
       <tag name="twig.extension"/>
@@ -3698,6 +4460,10 @@
           <argument>cache</argument>
           <argument>@WebProfiler/Collector/cache.html.twig</argument>
         </argument>
+        <argument key="data_collector.translation" type="collection">
+          <argument>translation</argument>
+          <argument>@WebProfiler/Collector/translation.html.twig</argument>
+        </argument>
         <argument key="data_collector.security" type="collection">
           <argument>security</argument>
           <argument>@Security/Collector/security.html.twig</argument>
@@ -3779,8 +4545,8 @@
     <service id="abstract.instanceof.AppBundle\Controller\DefaultController" class="AppBundle\Controller\DefaultController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.AppBundle\Controller\FirstConnexionController" class="AppBundle\Controller\FirstConnexionController" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.AppBundle\Controller\FirstConnexionController" class="AppBundle\Controller\FirstConnexionController" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id="instanceof.Symfony\Component\Form\FormTypeInterface.0.AppBundle\Form\UserType" class="AppBundle\Form\UserType" public="false" autowire="true" abstract="true"/>
-    <service id="abstract.instanceof.AppBundle\Form\UserType" class="AppBundle\Form\UserType" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.AppBundle\Controller\SearchController" class="AppBundle\Controller\SearchController" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.AppBundle\Controller\SearchController" class="AppBundle\Controller\SearchController" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="service_locator.4f8384c8862c511eefe34301cff90111" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection"/>
@@ -3789,14 +4555,38 @@
       <tag name="container.service_locator"/>
       <argument type="collection"/>
     </service>
-    <service id="service_locator.1dbeeee00ffc02beb1162b764ef7caff" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection"/>
-    </service>
-    <service id="service_locator.133e8104c311b0b1efd7c68ace796890" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.c8969e9f906055b5e4b0fc2924aa95c9" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="AppBundle\Form\UserType" type="service" id="AppBundle\Form\UserType"/>
+        <argument key="travelService" type="service" id="AppBundle\Service\TravelService" on-invalid="ignore"/>
+      </argument>
+    </service>
+    <service id="service_locator.b253bb6cef93262c133651d2a30f4571" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="AppBundle\Controller\SearchController:searchAction" type="service" id="service_locator.c8969e9f906055b5e4b0fc2924aa95c9"/>
+        <argument key="AppBundle\Controller\SearchController::searchAction" type="service" id="service_locator.c8969e9f906055b5e4b0fc2924aa95c9"/>
+      </argument>
+    </service>
+    <service id="service_locator.20ccd3ddf0f78b2202986f924e362585" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="translation.loader.csv" type="service" id="translation.loader.csv"/>
+        <argument key="translation.loader.dat" type="service" id="translation.loader.dat"/>
+        <argument key="translation.loader.ini" type="service" id="translation.loader.ini"/>
+        <argument key="translation.loader.json" type="service" id="translation.loader.json"/>
+        <argument key="translation.loader.mo" type="service" id="translation.loader.mo"/>
+        <argument key="translation.loader.php" type="service" id="translation.loader.php"/>
+        <argument key="translation.loader.po" type="service" id="translation.loader.po"/>
+        <argument key="translation.loader.qt" type="service" id="translation.loader.qt"/>
+        <argument key="translation.loader.res" type="service" id="translation.loader.res"/>
+        <argument key="translation.loader.xliff" type="service" id="translation.loader.xliff"/>
+        <argument key="translation.loader.yml" type="service" id="translation.loader.yml"/>
+      </argument>
+    </service>
+    <service id="service_locator.61ce42ee314d3459d7339b36d3fecf2a" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
         <argument key="FOS\UserBundle\Form\Type\ChangePasswordFormType" type="service" id="fos_user.change_password.form.type"/>
         <argument key="FOS\UserBundle\Form\Type\ProfileFormType" type="service" id="fos_user.profile.form.type"/>
         <argument key="FOS\UserBundle\Form\Type\RegistrationFormType" type="service" id="fos_user.registration.form.type"/>
@@ -3851,6 +4641,21 @@
     </service>
     <service id="monolog.logger.templating" class="Symfony\Bridge\Monolog\Logger">
       <argument>templating</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.server_log"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.console"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
+    </service>
+    <service id="monolog.logger.translation" class="Symfony\Bridge\Monolog\Logger">
+      <argument>translation</argument>
       <call method="pushProcessor">
         <argument type="service" id="debug.log_processor"/>
       </call>
@@ -3946,6 +4751,79 @@
       </call>
     </service>
     <service id="monolog.handler.null_internal" class="Monolog\Handler\NullHandler"/>
+    <service id="jms_translation.loader.wrapped_symfony_loader.0" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.php"/>
+    </service>
+    <service id="jms_translation.loader.wrapped_symfony_loader.1" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.yml"/>
+    </service>
+    <service id="jms_translation.loader.wrapped_symfony_loader.2" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.xliff"/>
+    </service>
+    <service id="jms_translation.loader.wrapped_symfony_loader.3" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.po"/>
+    </service>
+    <service id="jms_translation.loader.wrapped_symfony_loader.4" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.mo"/>
+    </service>
+    <service id="jms_translation.loader.wrapped_symfony_loader.5" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.qt"/>
+    </service>
+    <service id="jms_translation.loader.wrapped_symfony_loader.6" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.csv"/>
+    </service>
+    <service id="jms_translation.loader.wrapped_symfony_loader.7" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.res"/>
+    </service>
+    <service id="jms_translation.loader.wrapped_symfony_loader.8" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.dat"/>
+    </service>
+    <service id="jms_translation.loader.wrapped_symfony_loader.9" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.ini"/>
+    </service>
+    <service id="jms_translation.loader.wrapped_symfony_loader.10" class="JMS\TranslationBundle\Translation\Loader\SymfonyLoaderAdapter" public="false">
+      <argument type="service" id="translation.loader.json"/>
+    </service>
+    <service id="jms_translation.dumper.wrapped_symfony_dumper.0" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false">
+      <argument type="service" id="translation.dumper.php"/>
+      <argument>php</argument>
+    </service>
+    <service id="jms_translation.dumper.wrapped_symfony_dumper.1" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false">
+      <argument type="service" id="translation.dumper.xliff"/>
+      <argument>xlf</argument>
+    </service>
+    <service id="jms_translation.dumper.wrapped_symfony_dumper.2" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false">
+      <argument type="service" id="translation.dumper.po"/>
+      <argument>po</argument>
+    </service>
+    <service id="jms_translation.dumper.wrapped_symfony_dumper.3" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false">
+      <argument type="service" id="translation.dumper.mo"/>
+      <argument>mo</argument>
+    </service>
+    <service id="jms_translation.dumper.wrapped_symfony_dumper.4" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false">
+      <argument type="service" id="translation.dumper.yml"/>
+      <argument>yml</argument>
+    </service>
+    <service id="jms_translation.dumper.wrapped_symfony_dumper.5" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false">
+      <argument type="service" id="translation.dumper.qt"/>
+      <argument>ts</argument>
+    </service>
+    <service id="jms_translation.dumper.wrapped_symfony_dumper.6" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false">
+      <argument type="service" id="translation.dumper.csv"/>
+      <argument>csv</argument>
+    </service>
+    <service id="jms_translation.dumper.wrapped_symfony_dumper.7" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false">
+      <argument type="service" id="translation.dumper.ini"/>
+      <argument>ini</argument>
+    </service>
+    <service id="jms_translation.dumper.wrapped_symfony_dumper.8" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false">
+      <argument type="service" id="translation.dumper.json"/>
+      <argument>json</argument>
+    </service>
+    <service id="jms_translation.dumper.wrapped_symfony_dumper.9" class="JMS\TranslationBundle\Translation\Dumper\SymfonyDumperAdapter" public="false">
+      <argument type="service" id="translation.dumper.res"/>
+      <argument>res</argument>
+    </service>
     <service id="debug.event_dispatcher.inner" class="Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher" public="false">
       <argument type="service" id="service_container"/>
     </service>
@@ -4011,7 +4889,7 @@
     <service id="cache.system.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>7s9uBtjIJv</argument>
       <argument>0</argument>
-      <argument>Nb9N-FrIGyuSVYIXX9cFAb</argument>
+      <argument>-Eoca1x205kvyJ185C6RF5</argument>
       <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -4019,7 +4897,7 @@
     <service id="cache.validator.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>Mdpt5Y6j5A</argument>
       <argument>0</argument>
-      <argument>Nb9N-FrIGyuSVYIXX9cFAb</argument>
+      <argument>-Eoca1x205kvyJ185C6RF5</argument>
       <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -4027,7 +4905,7 @@
     <service id="cache.serializer.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>LSgeQU6iWN</argument>
       <argument>0</argument>
-      <argument>Nb9N-FrIGyuSVYIXX9cFAb</argument>
+      <argument>-Eoca1x205kvyJ185C6RF5</argument>
       <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -4035,7 +4913,7 @@
     <service id="cache.annotations.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>Jpvejg9bKP</argument>
       <argument>0</argument>
-      <argument>Nb9N-FrIGyuSVYIXX9cFAb</argument>
+      <argument>-Eoca1x205kvyJ185C6RF5</argument>
       <argument>C:\wamp64\www\SystemesRepartis-Covoiturage\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -4058,7 +4936,7 @@
     <service id="Symfony\Component\PropertyAccess\PropertyAccessorInterface" alias="property_accessor" public="false"/>
     <service id="cache.app_clearer" alias="cache.default_clearer"/>
     <service id="Psr\Cache\CacheItemPoolInterface" alias="cache.app" public="false"/>
-    <service id="Symfony\Component\Translation\TranslatorInterface" alias="translator" public="false"/>
+    <service id="Symfony\Component\Translation\TranslatorInterface" alias="translator.data_collector" public="false"/>
     <service id="Symfony\Component\HttpFoundation\Session\SessionInterface" alias="session" public="false"/>
     <service id="Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface" alias="session.storage.native" public="false"/>
     <service id="SessionHandlerInterface" alias="session.handler.native_file" public="false"/>
@@ -4078,6 +4956,7 @@
     <service id="templating" alias="templating.engine.twig"/>
     <service id="Symfony\Component\Validator\Validator\ValidatorInterface" alias="validator" public="false"/>
     <service id="validator.mapping.class_metadata_factory" alias="validator" public="false"/>
+    <service id="translator" alias="translator.data_collector"/>
     <service id="cache.default_redis_provider" alias="c66c8daa4fa4dead6a562ed2c4bdb322" public="false"/>
     <service id="cache.default_memcached_provider" alias="8464c6758298cf75d30c4f689fb7886d" public="false"/>
     <service id="Symfony\Component\Stopwatch\Stopwatch" alias="debug.stopwatch" public="false"/>
@@ -4146,6 +5025,8 @@
     <service id="console.command.symfony_bundle_webserverbundle_command_serverstatuscommand" alias="web_server.command.server_status"/>
     <service id="twig.loader" alias="twig.loader.filesystem"/>
     <service id="service_locator.b8d2046fb854cde05549fb309e1a80d2" alias="1_dbaf190777b7d7a5af87e4bd1765bf2e8367366b8f02e7b4dc5d107ba74f90c8" public="false"/>
+    <service id="translator.logging.inner" alias="translator.default" public="false"/>
+    <service id="translator.data_collector.inner" alias="translator.logging" public="false"/>
     <service id="event_dispatcher" alias="debug.event_dispatcher"/>
     <service id="controller_resolver" alias="debug.controller_resolver" public="false"/>
     <service id="argument_resolver" alias="debug.argument_resolver" public="false"/>

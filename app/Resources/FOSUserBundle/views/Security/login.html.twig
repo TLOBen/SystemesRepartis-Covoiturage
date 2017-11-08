@@ -1,10 +1,4 @@
-<!--
-A DEPLACER DANS REGISTER.HTML.TWIG DE FOSUSERBUNDLE
--->
-
 {% extends 'base.html.twig' %}
-
-{% trans_default_domain 'FOSUserBundle' %}
 
 {% block body %}
     <div class="container">
@@ -12,7 +6,7 @@ A DEPLACER DANS REGISTER.HTML.TWIG DE FOSUSERBUNDLE
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <strong>Login</strong>
+                        <strong>{{ 'login.title'|trans }}</strong>
                     </div>
                     
                     <div class="panel-body">

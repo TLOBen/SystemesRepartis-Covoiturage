@@ -23,7 +23,7 @@ class Reservation
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Trajet")
+     * @ORM\ManyToOne(targetEntity="Trajet", inversedBy="reservations")
      */
     private $trajet;
     

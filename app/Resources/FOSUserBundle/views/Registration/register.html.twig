@@ -2,6 +2,53 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% form_theme form _self %}
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            <div class="alert alert-danger">
+                {% for error in errors %}
+                    <strong>{{ error.message }}</strong>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong>Register</strong>
+                    </div>
+                    
+                    <div class="panel-body">
+                        {{ form_errors(form) }}
+                        {{ form_start(form) }}
+                            <div class="form-group">
+                                {{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            <button class="btn btn-lg btn-primary" type="submit">Register</button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{#
 {% block body %}
     {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
         {{ form_widget(form) }}
@@ -10,3 +57,4 @@
         </div>
     {{ form_end(form) }}
 {% endblock %}
+#}

@@ -2,9 +2,15 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}{{ 'base.welcome'|trans }}{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}" />
+            <link rel="stylesheet" type="text/css" href="{{asset('css/jquery.datetimepicker.min.css')}}" />
+        {% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('js/jquery.datetimepicker.full.min.js') }}"></script>
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
@@ -12,11 +18,13 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
             <div class="navbar-header">
-                <li class="navbar-brand">Covoiturage</li>
+                <li class="navbar-brand">{{ 'base.covoiturage'|trans }}</li>
             </div>
+            
             <ul class="nav navbar-nav navbar-right">
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <li><p class="navbar-text">{{ 'Logged in as ' }} {{ app.user.username }}</p></li>
+                    <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-cog"></span> Profil</a></li>
                     <li><a href="{{ path('fos_user_security_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                 {% else %}
                     <li><a href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -36,14 +44,6 @@
             {% endfor %}
         {% endif %}
         
-        <div>
-            {% block body %}
-            {% endblock %}
-        </div>
-
-        {% block javascripts %}
-            <script src="{{ asset('js/jquery.min.js') }}"></script>
-            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-        {% endblock %}
+        {% block body %}{% endblock %}
     </body>
 </html>

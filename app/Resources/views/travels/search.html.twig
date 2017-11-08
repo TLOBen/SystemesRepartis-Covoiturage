@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Recherche de trajets</strong>
+            </div>
+            
+
+            <div class="panel-body">
+                <form action="{{ path("search") }}" method="post">
+                    <div class="form-group">
+                        <input id="villeDepart" name="villeDepart" type="text" class="form-control" placeholder="ville de départ">
+                    </div>
+                    <div class="form-group">
+                        <input id="villeArrivee" name="villeArrivee" type="text" class="form-control" placeholder="Vile d'arrivée">
+                    </div>
+                    <div class="form-group">
+                        <input id="dateDepart" name="dateDepart" type="text" class="form-control" placeholder="Date de départ" readonly>
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+
+                <script type="text/javascript">
+                    $(function () {
+                        $('#dateDepart').datetimepicker({
+                            value:new Date(),
+                            timepicker:false,
+                            format:'d/m/Y', 
+                            defaultDate:new Date()
+                       });
+                    });
+                </script>
+            </div>
+        </div>
+
+        {% if trajets is empty %}
+            <div>Aucun trajat ne correspond à vos critères</div>
+        {% else %}
+            <table class="table table-hover table-bordered">
+                <tr>
+                    <th>Ville de départ</th>
+                    <th>Ville d'arrivée</th>
+                    <th>Prix</th>
+                    <th>Heure de départ</th>
+                    <th>Action</th>
+                </tr>
+                {% for trajet in trajets %}
+                    <tr>
+                        <td>{{ trajet.villeDepart }}</td>
+                        <td>{{ trajet.villeArrivee }}</td>
+                        <td>{{ trajet.prix }}</td>
+                        <td>{{ trajet.heureDepart }}</td>
+                        <td>
+                            <button class="btn btn-primary">Reserver</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+        
+    </div>
+{% endblock %}

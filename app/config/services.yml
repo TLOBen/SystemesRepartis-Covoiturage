@@ -14,3 +14,8 @@ services:
         resource: '../../src/AppBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
+
+    AppBundle\Form\ProfileFormType:
+        class: AppBundle\Form\ProfileFormType
+        tags:
+            - { name: form.type, alias: app_user_profile }

@@ -4,6 +4,6 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class PreferencesRepository extends EntityRepository
+class PreferenceRepository extends EntityRepository
 {
 }

@@ -43,7 +43,7 @@ class Trajet
     private $prix;
     
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      */
     private $dateDepart;
 

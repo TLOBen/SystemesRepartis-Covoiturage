@@ -2,28 +2,27 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Preference;
+use AppBundle\Entity\Trajet;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PreferenceFormType extends AbstractType
+class TrajetFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fumeur')
-            ->add('animaux')
-            ->add('climatisation')
-            ->add('grosBagage')
-            ->add('velo')
-            ->add('ski');
+            ->add('villeDepart')
+            ->add('villeArrivee')
+            ->add('dateDepart')
+            ->add('maxPlaces')
+            ->add('prix');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Preference::class,
+            'data_class' => Trajet::class,
         ));
     }
 }

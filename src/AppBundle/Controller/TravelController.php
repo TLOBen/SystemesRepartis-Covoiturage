@@ -2,10 +2,12 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Trajet;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Service\TravelService;
+use AppBundle\Form\TrajetFormType;
 
 /**
  * @Route("/travels")
@@ -31,6 +33,9 @@ class TravelController extends Controller
      */
     public function newAction(Request $request)
     {
+        $post = new Trajet();
+        $form = $this->createForm(TrajetFormType::class, $post);
+        
         if($request->getMethod() === 'POST') {
             $trajet = new Trajet();
 
@@ -43,7 +48,9 @@ class TravelController extends Controller
             $this->getDoctrine()->getManager()->persist($trajet)->flush();
         }
         
-        return $this->render('travels/new.html.twig');
+        return $this->render('travels/new.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
     
     /**
@@ -51,6 +58,13 @@ class TravelController extends Controller
      */
     public function viewAction($id, Request $request)
     {
-        return $this->render('travels/view.html.twig');
+        $trajet = $this->getDoctrine()
+                       ->getManager()
+                       ->getRepository('AppBundle:Trajet')
+                       ->find($id);
+        
+        return $this->render('travels/view.html.twig', array(
+            'trajets' => $trajet
+        ));
     }
 }

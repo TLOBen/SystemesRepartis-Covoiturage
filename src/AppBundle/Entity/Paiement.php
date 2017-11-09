@@ -18,16 +18,6 @@ class Paiement
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
-     */
-    private $user;
-    
-    /**
-     * @ORM\OneToOne(targetEntity="Trajet")
-     */
-    private $trajet;
-    
-    /**
      * @ORM\Column(type="integer")
      */
     private $montant;
@@ -50,26 +40,6 @@ class Paiement
     public function setId($is)
     {
         $this->id = $is;
-    }
-    
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-    
-    public function getTrajet()
-    {
-        return $this->trajet;
-    }
-
-    public function setTrajet($trajet)
-    {
-        $this->trajet = $trajet;
     }
     
     public function getMontant()

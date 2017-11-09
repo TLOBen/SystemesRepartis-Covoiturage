@@ -28,6 +28,11 @@ class Reservation
     private $trajet;
     
     /**
+     * @ORM\OneToOne(targetEntity="Paiement")
+     */
+    private $paiement;
+    
+    /**
      * @ORM\Column(type="datetime")
      */
     private $date;
@@ -65,5 +70,15 @@ class Reservation
     public function setTrajet($trajet)
     {
         $this->trajet = $trajet;
+    }
+    
+    public function getPaiement()
+    {
+        return $this->paiement;
+    }
+
+    public function setPaiement($paiement)
+    {
+        $this->paiement = $paiement;
     }
 }

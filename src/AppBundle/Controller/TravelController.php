@@ -33,18 +33,10 @@ class TravelController extends Controller
      */
     public function newAction(Request $request)
     {
-        $post = new Trajet();
-        $form = $this->createForm(TrajetFormType::class, $post);
-        
-        if($request->getMethod() === 'POST') {
-            $trajet = new Trajet();
-
-            $trajet->setUser($this->get('security.token_storage')->getToken()->getUser());
-            $trajet->setVilleDepart($request->get('villeDepart'));
-            $trajet->setVilleArrivee($request->get('villeArrivee'));
-            $trajet->setPrix($request->get('prix'));
-            $trajet->setDateDepart($request->get('dateDepart'));
-            
+        $trajet = new Trajet();
+        $form = $this->createForm(TrajetFormType::class, $trajet);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&& $form->isValid()) {
             $this->getDoctrine()->getManager()->persist($trajet)->flush();
         }
         

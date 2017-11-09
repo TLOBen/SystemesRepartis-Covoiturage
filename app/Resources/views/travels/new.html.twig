@@ -1,1 +1,67 @@
-{# empty Twig template #}
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% form_theme form _self %}
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            <div class="alert alert-danger">
+                {% for error in errors %}
+                    <strong>{{ error.message }}</strong>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_errors %}
+
+{% block body %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Ajouter un trajet</strong>
+            </div>
+
+            <div class="panel-body">
+                {{ form_errors(form) }}
+                {{ form_start(form) }}
+                    <div class="form-group">
+                        {{ form_row(form.villeDepart, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.villeArrivee, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.dateDepart, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.prix, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_row(form.maxPlaces, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <button type="submit" class="btn btn-default">Ajouter</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+                
+    <script type="text/javascript">
+        $(function () {
+            $('#dateDepart').datetimepicker({
+                value:new Date(),
+                format:'d/m/Y H:i', 
+                defaultDate:new Date(),
+                allowTimes:[
+                            '00:00', '01:00', '02:00', '03:00',
+                            '04:00', '05:00', '06:00', '07:00',
+                            '08:00', '09:00', '10:00', '11:00',
+                            '12:00', '13:00', '14:00', '15:00',
+                            '16:00', '17:00', '18:00', '19:00',
+                            '20:00', '21:00', '22:00', '23:00'
+                ]
+            });
+        });
+        
+    </script>
+{% endblock %}

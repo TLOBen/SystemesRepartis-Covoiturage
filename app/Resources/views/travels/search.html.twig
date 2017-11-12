@@ -10,15 +10,18 @@
             <div class="panel-body">
                 <form action="{{ path("travel_search") }}" method="post">
                     <div class="form-group">
-                        <input id="villeDepart" name="villeDepart" type="text" class="form-control" placeholder="ville de départ">
+                        <label>Ville de départ :</label>
+                        <input id="villeDepart" name="villeDepart" type="text" class="form-control" placeholder="Entrez votre ville de départ">
                     </div>
                     <div class="form-group">
-                        <input id="villeArrivee" name="villeArrivee" type="text" class="form-control" placeholder="Vile d'arrivée">
+                        <label>Ville d'arrivée :</label>
+                        <input id="villeArrivee" name="villeArrivee" type="text" class="form-control" placeholder="Entrez votre ville d'arrivée">
                     </div>
                     <div class="form-group">
+                        <label>Date de départ :</label>
                         <input id="dateDepart" name="dateDepart" type="text" class="form-control" placeholder="Date de départ" readonly>
                     </div>
-                    <button type="submit" class="btn btn-default">Rechercher</button>
+                    <button type="submit" class="btn colorTheme">Rechercher</button>
                 </form>
 
                 <script type="text/javascript">
@@ -41,29 +44,37 @@
             </div>
         </div>
 
-        {% if trajets is empty %}
-            <div>Aucun trajat ne correspond à vos critères</div>
-        {% else %}
-            <table class="table table-hover table-bordered">
-                <tr>
-                    <th>Ville de départ</th>
-                    <th>Ville d'arrivée</th>
-                    <th>Prix</th>
-                    <th>Heure de départ</th>
-                    <th>Action</th>
-                </tr>
-                {% for trajet in trajets %}
-                    <tr>
-                        <td>{{ trajet.villeDepart }}</td>
-                        <td>{{ trajet.villeArrivee }}</td>
-                        <td>{{ trajet.prix }}</td>
-                        <td>{{ trajet.dateDepart }}</td>
-                        <td>
-                            <button class="btn btn-primary">Reserver</button>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
-        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Résultat</strong>
+            </div>
+
+            <div class="panel-body">
+                {% if trajets is empty %}
+                    <div>Aucun trajet ne correspond à vos critères</div>
+                {% else %}
+                    <table class="table table-hover ">
+                        <tr>
+                            <th>Ville de départ</th>
+                            <th>Ville d'arrivée</th>
+                            <th>Prix</th>
+                            <th>Heure de départ</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for trajet in trajets %}
+                            <tr>
+                                <td>{{ trajet.villeDepart }}</td>
+                                <td>{{ trajet.villeArrivee }}</td>
+                                <td>{{ trajet.prix }}</td>
+                                <td>{{ trajet.dateDepart }}</td>
+                                <td>
+                                    <button class="btn colorTheme">Reserver</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}

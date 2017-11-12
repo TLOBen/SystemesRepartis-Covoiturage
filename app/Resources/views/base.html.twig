@@ -6,6 +6,7 @@
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}" />
             <link rel="stylesheet" type="text/css" href="{{asset('css/jquery.datetimepicker.min.css')}}" />
+            <link rel="stylesheet" type="text/css" href="{{asset('css/basestyle.css')}}" />
         {% endblock %}
         {% block javascripts %}
             <script src="{{ asset('js/jquery.min.js') }}"></script>
@@ -13,35 +14,7 @@
             <script src="{{ asset('js/jquery.datetimepicker.full.min.js') }}"></script>
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <style> 
-            .navbar {
-              margin-bottom: 0;
-              border-radius: 0;
-            }
 
-            .colorTheme{
-                background-color: #1abc9c;
-                color: #222222;
-            }
-            
-            .navbar-nav li a:hover {
-                color: #1abc9c !important;
-            }
-            
-            .panel{
-                margin-top: 25px;
-            }
-            
-            .panel > .panel-heading {
-                background-color: #222222;
-                color: white;
-            }
-            
-            .panel > .panel-body {
-                background-color: #F0F0F0;
-            }
-            
-        </style> 
     </head>
     <body>
         <nav class="navbar navbar-inverse">
@@ -50,12 +23,22 @@
                     <a class="navbar-brand">Covoiturage</a>
                 </div>
                 
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav menu" id="menu">
                     <li><a href="{{ path('homepage') }}">Accueil</a></li>
-                    <li><a href="{{ path('travel_search')}}">Trajets</a></li>
+                    <li>
+                        <a href="#">Trajets</a>
+                        <ul> 
+                            <li><a href="{{ path('travel_new')}}">Ajouter Trajet</a></li>
+                            <li><a href="{{ path('travel_search')}}">Rechercher Trajet</a></li>
+                        </ul>
+                    </li>
+                    
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <li><a href="{{ path('reservation_list') }}">Mes réservations</a></li>
+                    {% endif %}
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" id="menu">
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                         <li><p class="navbar-text">Connecté: {{ app.user.username }}</p></li>
                         <li><a href="{{ path('fos_user_profile_show') }}"><span class="glyphicon glyphicon-cog"></span> Profil</a></li>

@@ -5,9 +5,9 @@
         <title>{% block title %}Covoiturage{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}" />
-            <link rel="stylesheet" type="text/css" href="{{asset('css/jquery.datetimepicker.min.css')}}" />
             <link rel="stylesheet" type="text/css" href="{{asset('css/basestyle.css')}}" />
-        
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+            <link rel="stylesheet" href="/resources/demos/style.css">
             <style>
                 html, body {min-width: 700px}
             </style>
@@ -15,7 +15,8 @@
         {% block javascripts %}
             <script src="{{ asset('js/jquery.min.js') }}"></script>
             <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('js/jquery.datetimepicker.full.min.js') }}"></script>
+            <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 

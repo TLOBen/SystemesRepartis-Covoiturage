@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Paiement</strong>
+            </div>
+
+            <div class="panel-body">
+                <form method="POST" action="{{ path("reservation_new", { 'idTrajet': idTrajet }) }}">
+                    <div class="form-group">
+                        <label for="creditCard">Carte de crédit</label>
+                        <input class="form-control" type="text" name="creditCard" placeholder="000111222333">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nom">Nom</label>
+                        <input class="form-control" type="text" name="creditCard" placeholder="Nom écrit sur la carte">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cryptogramme">Cryptogramme</label>
+                        <input class="form-control" type="text" name="cryptogramme" placeholder="999">
+                    </div>
+                    
+                    <input class="btn btn-success" type="submit" value="Submit">
+                </form> 
+            </div>
+        </div>
+    </div>
+{% endblock %}

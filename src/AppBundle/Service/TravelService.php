@@ -31,12 +31,18 @@ class TravelService {
                     ->andWhere('t.villeArrivee LIKE :villeArrivee')
                     ->setParameter('villeArrivee', '%'.$villeArrivee.'%');
         }
+        if (!empty($dateDepart)) {
+            $queryBuilder = $queryBuilder
+                    ->andWhere('t.dateDepart >= DATE(:dateDepart)')
+                    ->setParameter('dateDepart', DateTime::createFromFormat('m/d/Y', $dateDepart));
+        }
         
         $trajetsInfo = array();
         foreach ($queryBuilder->getQuery()->getResult() as $trajet) {
             if (!(sizeof($trajet->getReservations()->getValues()) >= $trajet->getMaxPlaces())) {
                 $infos = array();
                 
+                $infos['id'] = $trajet->getId();
                 $infos['villeDepart'] = $trajet->getVilleDepart();
                 $infos['villeArrivee'] = $trajet->getVilleArrivee();
                 $infos['prix'] = $trajet->getPrix();

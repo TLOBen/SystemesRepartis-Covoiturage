@@ -1,29 +1,56 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <style>
+        .past{
+            background-color: #8c8c8c !important;
+        }
+    </style>
     
-    {% for trajet in trajets %}
-        
+    
+    <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <strong>Trajet {{trajet.villeDepart}} - {{trajet.villeArrivee}} : {{trajet.dateDepart}}</strong>
+                <strong>Mes trajets</strong>
             </div>
-            
-            <div class="panel-body">
-                <label>Prix par personne :</label>
-                <div class="well well-sm">{{ trajet.prix }}</div>
-                
-                <label>Nombre de places :</label>
-                <div class="well well-sm">{{ trajet.maxPlaces }}</div>  
-                
-                <label>Réservations :</label>
-                {% for reservation in trajet.reservations %}
-                    <div class="well well-sm">{{ reservation.user.email}}</div>    
-                {% endfor %}  
-            </div>
-            
-        </div>
 
-    {% endfor %}
-    
+            <div class="panel-body">
+                <table class="table table-hover ">
+                    <tr>
+                        <th>Effectué</th>
+                        <th>Ville de départ</th>
+                        <th>Ville d'arrivée</th>
+                        <th>Prix</th>
+                        <th>Date de départ</th>
+                        <th>Réservations</th>
+                    </tr>
+                    {% for trajet in trajets %}
+                        <tr>
+                            <td>
+                                {% if trajet.reservations is empty %}
+                                    <img src="https://image.flaticon.com/icons/png/512/60/60731.png" alt="Oui" style="width:20px">
+                                {% endif %}
+                            </td>
+                            <td>{{ trajet.villeDepart }}</td>
+                            <td>{{ trajet.villeArrivee }}</td>
+                            <td>{{ trajet.prix }} $</td>
+                            <td>{{ trajet.dateDepart|date('m/d/Y - h:i') }}</td>
+                            <td>
+                                <button data-toggle="collapse" data-target="#reservation{{ trajet.id }}" class="btn colorTheme">Voir Passagers</button>
+                                <div id="reservation{{ trajet.id }}" class="collapse">
+                                    {% if trajet.reservations is empty %}
+                                        <div class="well well-sm">Aucune réservations pour l'instant</div>
+                                    {% else %} 
+                                        {% for reservation in trajet.reservations %}
+                                            <div class="well well-sm">{{ reservation.user.username }} &lt;{{ reservation.user.email }}&gt;</div>    
+                                        {% endfor %} 
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -62,7 +62,7 @@ class TravelController extends Controller
     }
     
     /**
-     * @Route("/view/{id]", name="travel_view", requirements={"id": "\d+"})
+     * @Route("/view/{id}", name="travel_view", requirements={"id": "\d+"})
      */
     public function viewAction($id, Request $request)
     {

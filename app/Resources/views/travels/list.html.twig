@@ -1,1 +1,29 @@
-{# empty Twig template #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    {% for trajet in trajets %}
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Trajet {{trajet.villeDepart}} - {{trajet.villeArrivee}} : {{trajet.dateDepart}}</strong>
+            </div>
+            
+            <div class="panel-body">
+                <label>Prix par personne :</label>
+                <div class="well well-sm">{{ trajet.prix }}</div>
+                
+                <label>Nombre de places :</label>
+                <div class="well well-sm">{{ trajet.maxPlaces }}</div>  
+                
+                <label>Réservations :</label>
+                {% for reservation in trajet.reservations %}
+                <div class="well well-sm">{{ reservation.user.email}}</div>    
+                {% endfor %}  
+            </div>
+            
+        </div>
+
+    {% endfor %}
+    
+{% endblock %}

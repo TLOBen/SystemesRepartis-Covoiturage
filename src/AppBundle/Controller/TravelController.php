@@ -15,6 +15,14 @@ use AppBundle\Form\TrajetFormType;
 class TravelController extends Controller
 {
     /**
+     * @Route("/list", name="travel_list")
+     */
+    public function listAction(Request $request)
+    {
+        return $this->render('travels/list.html.twig');
+    }
+
+    /**
      * @Route("/search", name="travel_search")
      */
     public function searchAction(Request $request, TravelService $travelService)
@@ -36,8 +44,16 @@ class TravelController extends Controller
         $trajet = new Trajet();
         $form = $this->createForm(TrajetFormType::class, $trajet);
         $form->handleRequest($request);
+        
         if($form->isSubmitted()&& $form->isValid()) {
-            $this->getDoctrine()->getManager()->persist($trajet)->flush();
+            $trajet = $form->getData();
+            $trajet->setUser($this->get('security.token_storage')->getToken()->getUser());
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($trajet);
+            $entityManager->flush();
+            
+            return $this->redirectToRoute('travel_list');
         }
         
         return $this->render('travels/new.html.twig', array(

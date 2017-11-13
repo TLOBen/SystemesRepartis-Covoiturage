@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <style>
+        body{
+            color: #FFF;
+        }
+        
+        .colorfont{
+            color: #222222
+        }
+    </style>
+    
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-body text-center colorfont">Un e-mail a été envoyé à l'adresse {{user.email}}. Il contient un lien d'activation sur lequel il vous faudra cliquer afin d'activer votre compte.</div>
+        </div>
+    </div>
+
+{% endblock body %}

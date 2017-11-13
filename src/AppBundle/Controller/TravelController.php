@@ -18,14 +18,8 @@ class TravelController extends Controller
      * @Route("/list", name="travel_list")
      */
     public function listAction(Request $request)
-    {        
-        $entityManager = $this->getDoctrine()->getManager();
-        $travelRepository = $entityManager->getRepository('AppBundle:Trajet');
-        $travels = $travelRepository->findBy(array('user' => $this->get('security.token_storage')->getToken()->getUser()));
-        dump($travels);
-        return $this->render('travels/list.html.twig', array(
-            'trajets' => $travels,
-        ));
+    {
+        return $this->render('travels/list.html.twig');
     }
 
     /**
@@ -36,7 +30,6 @@ class TravelController extends Controller
         $villeDepart = $request->get('villeDepart');
         $villeArrivee = $request->get('villeArrivee');
         $dateDepart = $request->get('dateDepart');
-        dump($dateDepart);
         
         return $this->render('travels/search.html.twig', array(
             'trajets' => $travelService->getTrajetsInfo($villeDepart, $villeArrivee, $dateDepart),
@@ -65,6 +58,21 @@ class TravelController extends Controller
         
         return $this->render('travels/new.html.twig', array(
             'form' => $form->createView(),
+        ));
+    }
+    
+    /**
+     * @Route("/view/{id]", name="travel_view", requirements={"id": "\d+"})
+     */
+    public function viewAction($id, Request $request)
+    {
+        $trajet = $this->getDoctrine()
+                       ->getManager()
+                       ->getRepository('AppBundle:Trajet')
+                       ->find($id);
+        
+        return $this->render('travels/view.html.twig', array(
+            'trajets' => $trajet
         ));
     }
 }

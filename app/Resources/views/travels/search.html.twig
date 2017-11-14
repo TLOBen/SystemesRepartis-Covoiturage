@@ -53,7 +53,7 @@
                             <tr>
                                 <td>{{ trajet.villeDepart }}</td>
                                 <td>{{ trajet.villeArrivee }}</td>
-                                <td>{{ trajet.prix }}</td>
+                                <td>{{ trajet.prix }} $</td>
                                 <td>{{ trajet.dateDepart }}</td>
                                 <td>
                                     <form action="{{ path("reservation_new", { 'idTrajet': trajet.id }) }}">

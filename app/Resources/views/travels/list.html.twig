@@ -35,7 +35,9 @@
                                         <div class="well well-sm">Aucune réservations pour l'instant</div>
                                     {% else %} 
                                         {% for reservation in trajet.reservations %}
-                                            <div class="well well-sm">{{ reservation.user.username }} &lt;{{ reservation.user.email }}&gt;</div>    
+                                            <div class="well well-sm"> 
+                                                <a class="btn colorTheme" href="{{path('profile_view', {'id': reservation.user.id}) }}">{{ reservation.user.username }}</a>
+                                            </div>    
                                         {% endfor %} 
                                     {% endif %}
                                 </div>

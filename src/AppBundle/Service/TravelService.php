@@ -5,23 +5,27 @@ namespace AppBundle\Service;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Description of TravelService
+ * Service de recherche de trajets
  *
- * @author Benjamin
+ * @author Benjamin DAGOURET, Florian VIDAL
  */
-class TravelService {
+class TravelService
+{
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager) {
+    public function __construct(EntityManager $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
     
-    public function getTrajetsInfo($villeDepart, $villeArrivee, $dateDepart) {        
+    public function getTrajetsInfo($villeDepart, $villeArrivee, $dateDepart)
+    {
         $queryBuilder = $this->entityManager
                                  ->getRepository('AppBundle:Trajet')
                                  ->createQueryBuilder('t')
                                  ->andWhere('t.dateDepart >= :now')
-                                 ->setParameter('now', new \DateTime('now'));;
+                                 ->setParameter('now', new \DateTime('now'));
+        ;
         
         if (!empty($villeDepart)) {
             $queryBuilder = $queryBuilder
@@ -55,5 +59,5 @@ class TravelService {
         }
         
         return $trajetsInfo;
-    }    
+    }
 }

@@ -1,34 +1,30 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace AppBundle\Service;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use AppBundle\Entity\Trajet;
 use AppBundle\Entity\Reservation;
 use AppBundle\Entity\Paiement;
-use AppBundle\Entity\User;
 
 /**
- * Description of MailService
+ * Service d'envoi de mails
  *
- * @author Benjamin
+ * @author Benjamin DAGOURET, Florian VIDAL
  */
-class MailService {
+class MailService
+{
     private $mailer;
     private $templating;
     
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container)
+    {
         $this->mailer = $container->get('mailer');
         $this->templating = $container->get('templating');
     }
     
-    public function sendReservationMail(Trajet $trajet, Reservation $reservation, Paiement $paiement) {
+    public function sendReservationMail(Trajet $trajet, Reservation $reservation, Paiement $paiement)
+    {
         $message = \Swift_Message::newInstance()
             ->setSubject('Reservation effectuée')
             ->setFrom('benjamin.dagouret@orange.fr')

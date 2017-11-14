@@ -13,7 +13,7 @@ use AppBundle\Service\MailService;
  * @Route("/reservation")
  */
 class ReservationController extends Controller
-{    
+{
     /**
      * @Route("/new/{idTrajet}", name="reservation_new", requirements={"idTrajet": "\d+"})
      */
@@ -33,7 +33,7 @@ class ReservationController extends Controller
             return $this->redirectToRoute('reservation_error', array('id' => 1));
         }
         
-        if ($request->getMethod() === 'POST') {            
+        if ($request->getMethod() === 'POST') {
             if ($trajet->getReservations()->count() >= $trajet->getMaxPlaces()) {
                 return $this->redirectToRoute('reservation_error', array('id' => '2'));
             }

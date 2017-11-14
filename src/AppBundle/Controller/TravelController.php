@@ -18,7 +18,7 @@ class TravelController extends Controller
      * @Route("/list", name="travel_list")
      */
     public function listAction(Request $request)
-    {        
+    {
         $entityManager = $this->getDoctrine()->getManager();
         $travelRepository = $entityManager->getRepository('AppBundle:Trajet');
         $travels = $travelRepository->findBy(array('user' => $this->get('security.token_storage')->getToken()->getUser()));
@@ -32,7 +32,7 @@ class TravelController extends Controller
      * @Route("/search", name="travel_search")
      */
     public function searchAction(Request $request, TravelService $travelService)
-    {        
+    {
         $villeDepart = $request->get('villeDepart');
         $villeArrivee = $request->get('villeArrivee');
         $dateDepart = $request->get('dateDepart');
@@ -51,7 +51,7 @@ class TravelController extends Controller
         $form = $this->createForm(TrajetFormType::class, $trajet);
         $form->handleRequest($request);
         
-        if($form->isSubmitted()&& $form->isValid()) {
+        if ($form->isSubmitted()&& $form->isValid()) {
             $trajet = $form->getData();
             $trajet->setUser($this->get('security.token_storage')->getToken()->getUser());
 

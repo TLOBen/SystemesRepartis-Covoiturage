@@ -117,15 +117,18 @@ class Trajet
         $this->prix = $prix;
     }
     
-    public function getReservations() {
+    public function getReservations()
+    {
         return $this->reservations;
     }
     
-    public function getDateDepart() {
+    public function getDateDepart()
+    {
         return $this->dateDepart;
     }
     
-    public function setDateDepart($dateDepart) {
+    public function setDateDepart($dateDepart)
+    {
         $this->dateDepart = $dateDepart;
     }
 }

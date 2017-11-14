@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Erreur</strong>
+            </div>
+
+            <div class="panel-body">
+                <div class="alert alert-danger">
+                    <strong>{{ error }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

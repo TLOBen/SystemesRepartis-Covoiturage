@@ -1,13 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <style>
-        .past{
-            background-color: #8c8c8c !important;
-        }
-    </style>
-    
-    
+{% block body %}    
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -27,7 +20,7 @@
                     {% for trajet in trajets %}
                         <tr>
                             <td>
-                                {% if trajet.reservations is empty %}
+                                {% if date(trajet.dateDepart) < date() %}
                                     <img src="https://image.flaticon.com/icons/png/512/60/60731.png" alt="Oui" style="width:20px">
                                 {% endif %}
                             </td>

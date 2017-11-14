@@ -56,7 +56,9 @@
                                 <td>{{ trajet.prix }}</td>
                                 <td>{{ trajet.dateDepart }}</td>
                                 <td>
-                                    <button class="btn colorTheme">Reserver</button>
+                                    <form action="{{ path("reservation_new", { 'idTrajet': trajet.id }) }}">
+                                        <input class="btn colorTheme" type="submit" value="Reserver" />
+                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}

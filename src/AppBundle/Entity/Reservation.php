@@ -18,7 +18,7 @@ class Reservation
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      */
     private $user;
 

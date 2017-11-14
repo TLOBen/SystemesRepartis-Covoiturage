@@ -54,11 +54,11 @@ class TravelController extends Controller
         if($form->isSubmitted()&& $form->isValid()) {
             $trajet = $form->getData();
             $trajet->setUser($this->get('security.token_storage')->getToken()->getUser());
-            
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trajet);
             $entityManager->flush();
-            
+
             return $this->redirectToRoute('travel_list');
         }
         

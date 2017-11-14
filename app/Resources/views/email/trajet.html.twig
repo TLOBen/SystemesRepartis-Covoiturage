@@ -1,0 +1,9 @@
+<html>
+    <body>
+        <p>Bonjour {{ username }},</p>
+        <p>{{ trajetUsername }} a réservé une place pour votre trajet allant de {{ villeDepart }} à {{ villeArrivee }} le {{ dateDepart|date('m/d/Y') }} à {{ dateDepart|date('h:i') }}</p>
+        <p>Vous pouvez prendre contact avec {{ trajetUsername }} avec son addresse mail {{ mail }}</p>
+        <p>Cordialement,</p>
+        <p>L'équipe</p>
+    </body>
+</html>

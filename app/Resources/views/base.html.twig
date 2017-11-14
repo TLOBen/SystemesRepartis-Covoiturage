@@ -35,8 +35,10 @@
                     <li>
                         <a href="#">Trajets</a>
                         <ul>
-                            <li><a href="{{ path('travel_list')}}">Mes Trajets</a></li>
-                            <li><a href="{{ path('travel_new')}}">Ajouter Trajet</a></li>
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                <li><a href="{{ path('travel_list')}}">Mes Trajets</a></li>
+                                <li><a href="{{ path('travel_new')}}">Ajouter Trajet</a></li>
+                            {% endif %}
                             <li><a href="{{ path('travel_search')}}">Rechercher Trajet</a></li>
                         </ul>
                     </li>

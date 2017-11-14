@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Reservation;
 use AppBundle\Entity\Paiement;
+use AppBundle\Service\MailService;
 
 /**
  * @Route("/reservation")
@@ -16,7 +17,7 @@ class ReservationController extends Controller
     /**
      * @Route("/new/{idTrajet}", name="reservation_new", requirements={"idTrajet": "\d+"})
      */
-    public function newAction($idTrajet, Request $request)
+    public function newAction($idTrajet, Request $request, MailService $mailService)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $trajetRepository = $entityManager->getRepository('AppBundle:Trajet');
@@ -48,6 +49,8 @@ class ReservationController extends Controller
             $entityManager->persist($paiement);
             $entityManager->persist($reservation);
             $entityManager->flush();
+            
+            $mailService->sendReservationMail($trajet, $reservation, $paiement);
             
             return $this->redirectToRoute('reservation_list');
         }

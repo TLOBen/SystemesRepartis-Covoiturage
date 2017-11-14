@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="trajets")
@@ -44,6 +45,10 @@ class Trajet
     
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan(
+     *     "today",
+     *     message="Vous ne pouvez pas ajouter un trajet daté d'avant ajourd'hui"
+     * )
      */
     private $dateDepart;
 

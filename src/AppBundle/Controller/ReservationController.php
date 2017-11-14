@@ -18,13 +18,23 @@ class ReservationController extends Controller
      */
     public function newAction($idTrajet, Request $request)
     {
-        if ($request->getMethod() === 'POST') {
-            $entityManager = $this->getDoctrine()->getManager();
-            $trajetRepository = $entityManager->getRepository('AppBundle:Trajet');
-            $trajet = $trajetRepository->find($idTrajet);
-            
+        $entityManager = $this->getDoctrine()->getManager();
+        $trajetRepository = $entityManager->getRepository('AppBundle:Trajet');
+        $reservationRepository = $entityManager->getRepository('AppBundle:Reservation');
+        
+        $trajet = $trajetRepository->find($idTrajet);
+        $reservations = $reservationRepository->findBy(array(
+            'user' => $this->get('security.token_storage')->getToken()->getUser(),
+            'trajet' => $trajet,
+        ));
+        
+        if (sizeof($reservations) > 0) {
+            return $this->redirectToRoute('reservation_error', array('id' => 1));
+        }
+        
+        if ($request->getMethod() === 'POST') {            
             if ($trajet->getReservations()->count() >= $trajet->getMaxPlaces()) {
-                return $this->redirectToRoute('reservation_error');
+                return $this->redirectToRoute('reservation_error', array('id' => '2'));
             }
             
             $paiement = new Paiement();
@@ -62,10 +72,20 @@ class ReservationController extends Controller
     }
     
     /**
-     * @Route("/error", name="reservation_error")
+     * @Route("/error/{id}", name="reservation_error", requirements={"idTrajet": "\d+"})
      */
-    public function errorAction(Request $request)
+    public function errorAction($id, Request $request)
     {
-        return $this->render('reservation/error.html.twig');
+        $error = null;
+        if ($id == 1) {
+            $error = "Vous avez déjà réservé ce trajet";
+        }
+        if ($id == 2) {
+            $error = "Il n'y a déjà plus de place pour ce trajet";
+        }
+        
+        return $this->render('reservation/error.html.twig', array(
+            'error' => $error,
+        ));
     }
 }

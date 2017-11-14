@@ -19,7 +19,9 @@ class TravelService {
     public function getTrajetsInfo($villeDepart, $villeArrivee, $dateDepart) {        
         $queryBuilder = $this->entityManager
                                  ->getRepository('AppBundle:Trajet')
-                                 ->createQueryBuilder('t');
+                                 ->createQueryBuilder('t')
+                                 ->andWhere('t.dateDepart >= :now')
+                                 ->setParameter('now', new \DateTime('now'));;
         
         if (!empty($villeDepart)) {
             $queryBuilder = $queryBuilder
@@ -33,8 +35,8 @@ class TravelService {
         }
         if (!empty($dateDepart)) {
             $queryBuilder = $queryBuilder
-                    ->andWhere('t.dateDepart >= DATE(:dateDepart)')
-                    ->setParameter('dateDepart', DateTime::createFromFormat('m/d/Y', $dateDepart));
+                    ->andWhere('t.dateDepart >= :dateDepart')
+                    ->setParameter('dateDepart', \DateTime::createFromFormat('m/d/Y', $dateDepart));
         }
         
         $trajetsInfo = array();

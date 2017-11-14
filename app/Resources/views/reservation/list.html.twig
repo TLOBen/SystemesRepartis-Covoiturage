@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}  
+{% block body %}
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -13,13 +13,19 @@
                 {% else %}
                     <table class="table table-hover ">
                         <tr>
+                            <th>Trajet effectué</th>
                             <th>Ville de départ</th>
                             <th>Ville d'arrivée</th>
                             <th>Prix</th>
                             <th>Heure de départ</th>
                         </tr>
                         {% for reservation in reservations %}
-                            <tr class={{ true == true ? 'test' }}>
+                            <tr>
+                                <td>
+                                    {% if date(reservation.trajet.dateDepart) < date() %}
+                                        <img src="https://image.flaticon.com/icons/png/512/60/60731.png" alt="Oui" style="width:20px">
+                                    {% endif %}
+                                </td>
                                 <td>{{ reservation.trajet.villeDepart }}</td>
                                 <td>{{ reservation.trajet.villeArrivee }}</td>
                                 <td>{{ reservation.trajet.prix }} $</td>

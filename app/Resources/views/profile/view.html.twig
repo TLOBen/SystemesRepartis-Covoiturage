@@ -9,14 +9,14 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <strong>Mon Profil</strong>
+                <strong>Profil de {{user.username}}</strong>
             </div>
 
             <div class="panel-body">
                 <label>Nom de compte :</label>
                 <div class="well well-sm">{{ user.username }}</div>
                 
-                <label>Adresse e-mail :</label>
+                <label>Contact :</label>
                 <div class="well well-sm">{{ user.email }}</div>
                 
                 <label>Préférences :</label>
@@ -56,11 +56,7 @@
                         <p>Cet utilisateur transporte du matériel de ski</p>
                     </div>
                 </div>
-                
-                <a href="{{ path('fos_user_profile_edit')}}" class="btn colorTheme">Modifier Profil</a>
-                
             </div>
         </div>
     </div>
-
 {% endblock %}

@@ -49,10 +49,11 @@ class TravelService
                 $infos = array();
                 
                 $infos['id'] = $trajet->getId();
+                $infos['user'] = $trajet->getUser();
                 $infos['villeDepart'] = $trajet->getVilleDepart();
                 $infos['villeArrivee'] = $trajet->getVilleArrivee();
                 $infos['prix'] = $trajet->getPrix();
-                $infos['dateDepart'] = $trajet->getVilleDepart();
+                $infos['dateDepart'] = $trajet->getDateDepart();
                 
                 $trajetsInfo[] = $infos;
             }
